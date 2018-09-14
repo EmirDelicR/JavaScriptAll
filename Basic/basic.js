@@ -131,17 +131,75 @@ for (const value of iterable) {
 /**--------------------------------- Array Iteration: 8 Methods ---------------------------- */
 console.log('Array Iteration: 8 Methods');
 
-let arr_methods = [1, 2, 3, 4, 5];
+let arr_methods = [11, 12, 13, 14, 15];
 // forEach
-
+arr_methods.forEach((item, index) => {
+    console.log("Example of foreach loop: ", index+' : '+item);
+});
 // map
-
+const doubled = arr_methods.map( item => item * 2);
+console.log("Exaple of using map on array: ", doubled);
 // filter
-
+const filtered = arr_methods.filter( item => item % 2 === 0);
+console.log("Exaple of using filter on array: ", filtered);
 // reduce
-
+const reduced = arr_methods.reduce( (result, item) => result + item, 100);
+console.log("Exaple of using reduce on array: ", reduced);
 // some
-
+let arr_methods_some = [11, 12, -13, 14, 15];
+const some = arr_methods_some.some( item => item < 0); // if some elements match condition return true
+console.log("Exaple of using some on array: ", some);
 // every
-
+const every = arr_methods_some.every( item => item < 0); // if every element match condition return true
+console.log("Exaple of using every on array: ", every);
 // find
+const found = arr_methods_some.find( item => item === -13); // if finde return element else return undefined
+console.log("Exaple of using find on array: ", found);
+// findIndex
+const foundIndex = arr_methods_some.findIndex( item => item === -11); // if finde return element index else return -1
+console.log("Exaple of using find on array: ", foundIndex);
+
+/** --------------------------------------------- Objects ---------------------------------------- */
+console.log('------------------------ Objects  ----------------------------------');
+let myCar = {};
+myCar.model = "Audi";
+console.log("Call object with Object.property: ", myCar.model);
+
+myCar['model test'] = "Audi-test"; // Use brackets if have empty space
+console.log("Call object with Object[property]: ",myCar['model test']);
+
+// delete property
+delete myCar.model;
+console.log("Object my car after deliting property: ", myCar);
+// check property
+console.log("Check if property exist: ", myCar.hasOwnProperty('model'));
+// access nested object
+let nestObj = {
+    "test":{
+        "test nest": "Test inside []"
+    },
+    "test2": {
+        "test_nest_2": "Test using ."
+    }
+}
+console.log("Nested objec using []: ", nestObj.test["test nest"]);
+console.log("Nested objec using .: ", nestObj.test2.test_nest_2);
+
+// Generate an Array of all Object keys
+console.log("Array of object keys: ", Object.keys(nestObj));
+
+/** ------------------------------- AJAX -------------------------------------- */
+
+console.log("---------------AJAX = Asynchronous JavaScript And XML-------------------");
+
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+       document.getElementById("demo").innerHTML = this.responseText;
+      }
+    };
+    xhttp.open("GET", "URL", true);
+    xhttp.send();
+  }
+   
