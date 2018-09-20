@@ -269,4 +269,70 @@ counter.increment();
 console.log("Incremented 2x: ", counter.value()); 
 counter.decrement();
 console.log("Decremented: ", counter.value());
-  
+
+
+/** ------------------------------- This in JS -------------------------------------- */
+
+console.log("--------------- This in JS -------------------");
+
+function add(c, d) {
+  return this.a + this.b + c + d;
+}
+
+let object = {a: 1, b: 3};
+console.log("Using call on function add: ", add.call(object, 5, 7));
+console.log("Using apply on function add: ", add.apply(object, [10, 20]));
+
+
+function f() {
+  return this.a;
+}
+
+let g = f.bind({a: 'unicycle'});
+console.log("Call bind on function: ", g());
+
+let h = g.bind({a: 'cereal'}); // won’t work a second time
+console.log("Call bind secend time on same object:", h());
+
+let newObj = {a: 8, f: f, g: g, h: h};
+console.log(newObj.f(), newObj.g(), newObj.h());
+
+// Arrow functions ES6
+console.log(" ----- Arrow functions ES6 ----------");
+let trObj = {
+ traditionalFunc: function () {
+   console.log('traditionalFunc this === o?', this === trObj);
+ },
+ arrowFunc: () => {
+   console.log('arrowFunc this === o?', this === trObj);
+   console.log('arrowFunc this === window?', this === window);
+ }
+};
+
+trObj.traditionalFunc();
+trObj.arrowFunc();
+
+
+let propObj = {
+  prop: 37,
+  f: function() {
+    return this.prop;
+  }
+};
+
+console.log(propObj.f()); // logs 37
+
+var o = {prop: 23};
+
+function independent() {
+  return this.prop;
+}
+
+o.f = independent;
+
+console.log(o.f());
+
+
+/** ------------------------------- Promises -------------------------------------- */
+
+console.log("--------------- Promises in JS -------------------");
