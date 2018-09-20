@@ -202,4 +202,71 @@ function loadDoc() {
     xhttp.open("GET", "URL", true);
     xhttp.send();
   }
-   
+
+
+/** ------------------------------- JSON -------------------------------------- */
+
+console.log("---------------JSON = JavaScript Object Notation -------------------");
+
+let myJSON = {
+    "name": {
+        "first": "Emir",
+        "laast": "Delic"
+    },
+    "data": {
+        "important": true,
+        "timeout": 200
+    }
+}
+
+// stringify method
+let stringified = JSON.stringify(myJSON);
+console.log("JSON stringified: ", stringified);
+// parse method
+let myParse = JSON.parse(stringified);
+console.log(myParse);
+
+/** ------------------------------- Closures -------------------------------------- */
+
+console.log("--------------- Closures -------------------");
+
+// JS Nuggets: Closures
+
+function makeFunc() {
+    let name = "JS Nuggets";
+    function displayName() {
+        console.log(name);
+    }
+    return displayName;
+}
+
+let myFunc = makeFunc();
+myFunc();
+
+let counter = (function() {
+    let privateCounter = 0;
+    // this is now private function
+    function changeBy(val) {
+        privateCounter += val;
+    }
+    // This is now public function
+    return {
+        increment: function() {
+            changeBy(1);
+        },
+        decrement: function() {
+            changeBy(-1);
+        },
+        value: function() {
+            return privateCounter;
+        }
+    };   
+})();
+
+console.log("Current value: ", counter.value()); 
+counter.increment();
+counter.increment();
+console.log("Incremented 2x: ", counter.value()); 
+counter.decrement();
+console.log("Decremented: ", counter.value());
+  
