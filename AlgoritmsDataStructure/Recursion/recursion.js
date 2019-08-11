@@ -9,6 +9,11 @@
  * 8. REVERSE STRING
  * 9. IS PALINDROME
  * 10. FLAT ARRAY
+ * 11. CAPITALIZE FIRST
+ * 12. NESTED EVEN SUM
+ * 13. CAPITALIZE WORDS
+ * 14. STRINGIFY NUMBERS
+ * 15. COLLECT STRING
  */
 
 /** ------------------------------- ADD UP TO NUMBER -------------------------------------- */
@@ -175,3 +180,124 @@ const flatten = arr => {
 console.log("Flatten array: ", flatten([1, 2, [3, 4]]));
 
 console.log("Flatten array: ", flatten([1, 2, [3, [4, 5]]]));
+
+/** --------------------------- CAPITALIZE FIRST --------------------------------------- */
+const capitalize = str => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+const capitalizeFirstLeather = arr => {
+  if (arr.length === 1) {
+    return [capitalize(arr[0])];
+  }
+  return [capitalize(arr[0]), ...capitalizeFirstLeather(arr.slice(1))];
+};
+
+console.log(capitalizeFirstLeather(["test", "test2", "test3"]));
+
+/** --------------------------- NESTED EVEN SUM --------------------------------------- */
+
+const nestedEvenSum = obj => {
+  let sum = 0;
+  for (const key in obj) {
+    if (typeof obj[key] === "number" && obj[key] % 2 === 0) {
+      sum += obj[key];
+    } else if (typeof obj[key] === "object") {
+      sum += nestedEvenSum(obj[key]);
+    }
+  }
+  return sum;
+};
+
+const obj1 = {
+  outer: 2,
+  obj: {
+    inner: 2,
+    otherObj: {
+      superInner: 2,
+      notANumber: true,
+      alsoNotANumber: "yup"
+    }
+  }
+};
+
+const obj2 = {
+  a: 2,
+  b: { b: 2, bb: { b: 3, bb: { b: 2 } } },
+  c: { c: { c: 2 }, cc: "ball", ccc: 5 },
+  d: 1,
+  e: { e: { e: 2 }, ee: "car" }
+};
+
+console.log("Nested object sum of num: ", nestedEvenSum(obj1)); // 6
+console.log("Nested object sum of num: ", nestedEvenSum(obj2)); // 10
+/** --------------------------- CAPITALIZE WORDS --------------------------------------- */
+const capitalizeWords = arr => {
+  if (arr.length === 1) {
+    return [arr[0].toUpperCase()];
+  }
+  return [arr[0].toUpperCase(), ...capitalizeWords(arr.slice(1))];
+};
+
+console.log(capitalizeWords(["test", "test2", "test3"]));
+
+/** --------------------------- STRINGIFY NUMBERS --------------------------------------- */
+
+const stringifyNumbers = obj => {
+  let newObj = {};
+  for (const key in obj) {
+    if (typeof obj[key] === "number") {
+      newObj[key] = obj[key].toString();
+    } else if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+      newObj[key] = stringifyNumbers(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  }
+  return newObj;
+};
+
+let obj = {
+  num: 1,
+  test: [],
+  data: {
+    val: 4,
+    info: {
+      isRight: true,
+      random: 66
+    }
+  }
+};
+console.log("Stringify num in object: ", stringifyNumbers(obj));
+
+/** --------------------------- COLLECT STRING --------------------------------------- */
+const collectStrings = obj => {
+  let arrOfStrings = [];
+  for (const key in obj) {
+    if (typeof obj[key] === "string") {
+      arrOfStrings.push(obj[key]);
+    } else if (typeof obj[key] === "object") {
+      arrOfStrings = arrOfStrings.concat(collectStrings(obj[key]));
+    }
+  }
+  return arrOfStrings;
+};
+
+const objStr = {
+  stuff: "foo",
+  data: {
+    val: {
+      thing: {
+        info: "bar",
+        moreInfo: {
+          evenMoreInfo: {
+            weMadeIt: "baz"
+          }
+        }
+      }
+    }
+  }
+};
+
+console.log("Array of strings from object: ", collectStrings(objStr));
+/** -------------------------------- END ---------------------------------------------- */
