@@ -14,6 +14,8 @@
  *  13. IS SUB SEQUENCE - MULTI POINTER PATTERN
  *  14. MAX SUBARRAY SUM  - SLIDING WINDOW PATTERN
  *  15. MIN SUBARRAY LENGTH  - SLIDING WINDOW PATTERN
+ *  16. SHORTEST COIN PATH
+ *  17. NUMBER OF COINS
  * */
 
 /** ------------------------------- 1. PERFORMANCE TIMER -------------------------------------- */
@@ -525,3 +527,96 @@ function findLongestSubstring(str) {
   }
   return longest;
 }
+
+/** ---------------------- SHORTEST COIN PATH ------------------------------ */
+
+const matrix = [
+  ["C", "01", "C", "03"],
+  ["C", "11", "MP", "C"],
+  ["C", "21", "22", "C"],
+  ["30", "31", "32", "C"]
+];
+
+const myPosition = {
+  x: 1,
+  y: 2
+};
+
+const findClosestCoin = (mat, myPos) => {
+  let shortestDistance = -1;
+  let pointerOnX = -1;
+  let pointerOnY = -1;
+  for (let i = 0; i < mat.length; i++) {
+    for (let j = 0; j < mat[i].length; j++) {
+      if (mat[i][j] === "C") {
+        let xDist = Math.abs(myPos.x - i);
+        let yDist = Math.abs(myPos.y - j);
+        let totalDist = xDist + yDist;
+        if (shortestDistance === -1 || totalDist < shortestDistance) {
+          shortestDistance = totalDist;
+          pointerOnX = i;
+          pointerOnY = j;
+        }
+        if (totalDist > shortestDistance) {
+          return {
+            x: pointerOnX,
+            y: pointerOnY
+          };
+        }
+      }
+    }
+  }
+
+  return {
+    x: pointerOnX,
+    y: pointerOnY
+  };
+};
+
+console.log("Closest coin: ", findClosestCoin(matrix, myPosition));
+
+/** ---------------------- NUMBER OF COINS ------------------------------ */
+const coins = [25, 10, 5, 1];
+const numOfCoins = coin => {
+  if (coin === 0) {
+    return 0;
+  }
+  let counter = 0;
+  for (let i = 0; i < coins.length; i++) {
+    if (coin >= coins[i]) {
+      counter += Math.floor(coin / coins[i]);
+      coin = coin % coins[i];
+    }
+    if (coin === 0) {
+      break;
+    }
+  }
+  return counter;
+};
+
+console.log("numOfCoins: ", numOfCoins(96));
+
+const coinsNo10 = [25, 10, 1];
+const minNumOfCoins = coin => {
+  if (coin === 0) {
+    return 0;
+  }
+  let counter = 0;
+  for (let i = 0; i < coinsNo10.length; i++) {
+    if (coin >= coinsNo10[i]) {
+      if (coin % coinsNo10[0] > coin % coinsNo10[1]) {
+        i++;
+      }
+      counter += Math.floor(coin / coinsNo10[i]);
+      coin = coin % coinsNo10[i];
+    }
+    if (coin === 0) {
+      break;
+    }
+  }
+  return counter;
+};
+
+console.log("numOfCoins: ", minNumOfCoins(26));
+
+/** ---------------------- NUMBER OF COINS ------------------------------ */
