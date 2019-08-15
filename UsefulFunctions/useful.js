@@ -1,10 +1,10 @@
 /**
- *  1. Performance Timer
- *  2. Ad up to Number
- *  3. Is Alpha Numeric
- *  4. Char Count
- *  5. Deep Copy (Object/array)
- *  6. Check Array Frequency Pattern
+ *  1. PERFORMANCE TIMER
+ *  2. ADD UP TO NUMBER
+ *  3. IS ALPHA NUMERIC
+ *  4. CHAR COUNT
+ *  5. DEEP COPY (Object/array)
+ *  6. CHECK ARRAY FREQUENCY PATTERN
  *  7. CHECK ARRAY FREQUENCY PATTERN - STRINGS
  *  8. CHECK ARRAY FREQUENCY PATTERN - NUMBERS
  *  9. SUM ZERO - MULTI POINTER PATTERN
@@ -14,8 +14,16 @@
  *  13. IS SUB SEQUENCE - MULTI POINTER PATTERN
  *  14. MAX SUBARRAY SUM  - SLIDING WINDOW PATTERN
  *  15. MIN SUBARRAY LENGTH  - SLIDING WINDOW PATTERN
- *  16. SHORTEST COIN PATH
- *  17. NUMBER OF COINS
+ *  16. LONGEST SUB STRING  - SLIDING WINDOW PATTERN
+ *  17. SHORTEST COIN PATH
+ *  18. NUMBER OF COINS
+ *  19. SHUFFLE STRING WITT TEST AND PERCENT FUNCTION
+ *  20. MOST FREQUENT ELEMENT
+ *  21. MEETING OPTIMIZER
+ *  22. GET ALL POSSIBLE COMBINATIONS FROM ARRAY
+ *  23. PERMUTATION OF OBJECT OR STRING
+ *  24. FIND MISSING ITEM IN ARRAY
+ *  25. IS SUB SEQUENCE - RETURN WORD - MULTI POINTER PATTERN
  * */
 
 /** ------------------------------- 1. PERFORMANCE TIMER -------------------------------------- */
@@ -502,7 +510,7 @@ console.log(
   minSubArrayLen([1, 4, 16, 22, 5, 7, 8, 9, 10], 95)
 ); // 0
 
-/** ------------------------------- 15. LONGEST SUB STRING  - SLIDING WINDOW PATTERN -------------------------------------- */
+/** ------------------------------- 16. LONGEST SUB STRING  - SLIDING WINDOW PATTERN -------------------------------------- */
 /**
  * findLongestSubstring('') // 0
  * findLongestSubstring('rithmschool') // 7
@@ -528,7 +536,7 @@ function findLongestSubstring(str) {
   return longest;
 }
 
-/** ---------------------- SHORTEST COIN PATH ------------------------------ */
+/** ---------------------- 17. SHORTEST COIN PATH ------------------------------ */
 
 const matrix = [
   ["C", "01", "C", "03"],
@@ -575,7 +583,7 @@ const findClosestCoin = (mat, myPos) => {
 
 console.log("Closest coin: ", findClosestCoin(matrix, myPosition));
 
-/** ---------------------- NUMBER OF COINS ------------------------------ */
+/** ---------------------- 18. NUMBER OF COINS ------------------------------ */
 const coins = [25, 10, 5, 1];
 const numOfCoins = coin => {
   if (coin === 0) {
@@ -619,4 +627,219 @@ const minNumOfCoins = coin => {
 
 console.log("numOfCoins: ", minNumOfCoins(26));
 
-/** ---------------------- NUMBER OF COINS ------------------------------ */
+/** ---------------------- 19. SHUFFLE STRING ------------------------------ */
+
+const shuffleString = str => {
+  let strArray = str.split("");
+  for (let i = strArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [strArray[i], strArray[j]] = [strArray[j], strArray[i]];
+  }
+  return strArray.join("");
+};
+
+console.log("shuffleString: ", shuffleString("TestString"));
+
+const testShuffle = (str, shuffleStr) => {
+  if (str.length !== shuffleStr.length) {
+    console.log("Length is not same!");
+  }
+  let sameIndexCounter = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i].charCodeAt() === shuffleStr[i].charCodeAt()) {
+      sameIndexCounter++;
+    }
+  }
+  let isAllLeatherIn = checkIfAllLeathersAreInBothArr(str, shuffleStr);
+  if (!isAllLeatherIn) {
+    console.log("All leathers are not in both string!!!");
+  }
+
+  const percent = calculatePercentage(sameIndexCounter, str.length);
+  console.log(`String is shuffled ${percent} %`);
+};
+
+const calculatePercentage = (partialValue, totalValue) => {
+  return 100 - (100 * partialValue) / totalValue;
+};
+
+const checkIfAllLeathersAreInBothArr = (str, shuffle) => {
+  const lookup = {};
+  for (const val of str) {
+    lookup[val] = (lookup[val] || 0) + 1;
+  }
+
+  for (const val of shuffle) {
+    if (!lookup[val]) {
+      return false;
+    }
+    lookup[val] -= 1;
+  }
+  console.log("str: ", str, " = ", shuffle);
+  return true;
+};
+
+testShuffle("TestString", shuffleString("TestString"));
+
+/** ---------------------- 20. MOST FREQUENT ELEMENT ------------------------------ */
+
+const mostFrequent = arr => {
+  const lookup = {};
+  for (const val of arr) {
+    lookup[val] = (lookup[val] || 0) + 1;
+  }
+  let k = 0;
+  let output = [];
+  for (const key in lookup) {
+    if (lookup[key] > 1) {
+      k++;
+      output.push(key);
+    }
+  }
+  /*
+  const arrOfKeys = Object.values(mostFreq);
+  const min = Math.min(...arrOfKeys);
+  const max = Math.max(...arrOfKeys);
+  */
+  console.log(`Most frequent is: ${output}, and frequent is ${k}!`);
+};
+
+mostFrequent([1, 1, 1, 3, 3, 4, 4, 3, 4]);
+
+/** ---------------------- 21. MEETING OPTIMIZER ------------------------------ */
+
+const meetingOptimizer = (meetingsArr, haveHours) => {
+  let meetings = [...meetingsArr];
+  meetings.sort((m1, m2) => {
+    return m1.hours - m2.hours;
+  });
+  let canAttendMeetings = [];
+  for (const val of meetings) {
+    if (val.hours <= haveHours) {
+      canAttendMeetings.push(val);
+      haveHours -= val.hours;
+    }
+  }
+  console.log("MeetingOptimizer: ", canAttendMeetings);
+};
+
+const meetingOptimizerMax = (meetingsArr, haveHours) => {
+  let meetings = [...meetingsArr];
+  let permutations = getAllPossibleCombinations(meetings);
+  let closestSum = 0;
+  let meetingsIndex = -1;
+
+  for (let i = 0; i < permutations.length; i++) {
+    let sum = permutations[i].reduce((sum, subMeetings) => {
+      return sum + subMeetings.hours;
+    }, 0);
+    if (sum <= haveHours && haveHours - sum < haveHours - closestSum) {
+      closestSum = sum;
+      meetingsIndex = i;
+    }
+  }
+  console.log("meetingOptimizerMax: ", permutations[meetingsIndex]);
+  return meetingsIndex > -1 ? permutations[meetingsIndex] : [];
+};
+
+/***************** 22. GET ALL POSSIBLE COMBINATIONS FROM ARRAY *****************/
+
+const getAllPossibleCombinations = arr => {
+  if (arr.length === 1) {
+    return [arr];
+  }
+  let subArr = getAllPossibleCombinations(arr.slice(1));
+  return subArr.concat(subArr.map(e => e.concat(arr[0])), [[arr[0]]]);
+};
+
+const meetings = [
+  {
+    hours: 5
+  },
+  {
+    hours: 3
+  },
+  {
+    hours: 2
+  }
+];
+meetingOptimizer(meetings, 6);
+meetingOptimizerMax(meetings, 6);
+
+/** ---------------------- 23. PERMUTATION OF OBJECT OR STRING ------------------------------ */
+const permutation = arr => {
+  if (arr.length) {
+    return arr.reduce((r, v, i) => {
+      return [
+        ...r,
+        ...permutation([...arr.slice(0, i), ...arr.slice(i + 1)]).map(x => [
+          v,
+          ...x
+        ])
+      ];
+    }, []);
+  } else {
+    return [[]];
+  }
+};
+permutation(meetings);
+
+/** ---------------------- 24. FIND MISSING ITEM IN ARRAY ------------------------------ */
+
+const findMissingItems = (fullArr, partialArr) => {
+  let _difference = new Set(fullArr);
+  for (const elem of partialArr) {
+    _difference.delete(elem);
+  }
+  return Array.from(_difference);
+};
+
+// Faster solution
+const findMissingItem = (fullArr, partialArr) => {
+  xor_sum = 0;
+
+  for (const elem of fullArr) {
+    xor_sum ^= elem;
+  }
+
+  for (const elem of partialArr) {
+    xor_sum ^= elem;
+  }
+  return xor_sum;
+};
+
+console.log("Find missing elements: ", findMissingItems([1, 2, 3], [2, 3]));
+console.log("Find missing element: ", findMissingItem([1, 2, 3], [2, 3]));
+
+/** ------------------------------- 25. IS SUB SEQUENCE - RETURN WORD - MULTI POINTER PATTERN -------------------------------------- */
+/**
+ * longestSubsequent('ABAZDC', 'BACBAD') // ABAD
+ * longestSubsequent('AGGTAB', 'GXTXAYB') // GTAB
+ * longestSubsequent('aaaa', 'aa') // aa
+ * longestSubsequent('', '...') // ''
+ */
+
+const longest = (xs, ys) => (xs.length > ys.length ? xs : ys);
+
+const lcs = (firstStr, secondStr) => {
+  if (!firstStr.length || !secondStr.length) {
+    return "";
+  }
+
+  let charOneFirstStr = firstStr[0];
+  let charOneSecondStr = secondStr[0];
+  restFirstStr = firstStr.slice(1);
+  restSecondStr = secondStr.slice(1);
+
+  if (charOneFirstStr === charOneSecondStr) {
+    return lcs(restFirstStr, restSecondStr) + charOneFirstStr;
+  }
+
+  return longest(lcs(firstStr, restSecondStr), lcs(restFirstStr, secondStr));
+};
+
+console.log("longestSubsequent: ", lcs("ABAZDC", "BACBAD"));
+console.log("longestSubsequent: ", lcs("AGGTAB", "GXTXAYB"));
+console.log("longestSubsequent: ", lcs("aaaa", "aa"));
+console.log("longestSubsequent: ", lcs("", "..."));
