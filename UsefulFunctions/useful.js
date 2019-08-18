@@ -24,6 +24,7 @@
  *  23. PERMUTATION OF OBJECT OR STRING
  *  24. FIND MISSING ITEM IN ARRAY
  *  25. IS SUB SEQUENCE - RETURN WORD - MULTI POINTER PATTERN
+ *  26. FIND NTH LARGEST NUMBER
  * */
 
 /** ------------------------------- 1. PERFORMANCE TIMER -------------------------------------- */
@@ -843,3 +844,16 @@ console.log("longestSubsequent: ", lcs("ABAZDC", "BACBAD"));
 console.log("longestSubsequent: ", lcs("AGGTAB", "GXTXAYB"));
 console.log("longestSubsequent: ", lcs("aaaa", "aa"));
 console.log("longestSubsequent: ", lcs("", "..."));
+
+/** ------------------------------- 26. FIND NTH LARGEST NUMBER -------------------------------------- */
+
+/** Quick solution O(n log n)   */
+const findNthLargest = (arr, pos = 2) => {
+  if (arr.length < 3) {
+    return 0;
+  }
+
+  return [...new Set(arr.sort((a, b) => b - a))][pos];
+};
+
+console.log("findNthLargest: ", findNthLargest([3, 2, 1, 2, 4]));
