@@ -1,10 +1,10 @@
 /** ------------------------------- DATA STRUCTURE -------------------------------------- */
 /**
- *  1. SINGLY LINKED LIST
+ *  1. DOUBLY LINKED LIST
  *
  * */
 
-/** ------------------------------- 1. SINGLY LINKED LIST -------------------------------------- */
+/** ------------------------------- 1. DOUBLY LINKED LIST -------------------------------------- */
 
 /** HELPER FUNCTION */
 const helper = (length, name) => {
@@ -19,10 +19,11 @@ class Node {
   constructor(val) {
     this.val = val;
     this.next = null;
+    this.previous = null;
   }
 }
 
-class SinglyLinkedList {
+class DoublyLinkedList {
   constructor() {
     this.head = null;
     this.tail = null;
@@ -43,8 +44,21 @@ class SinglyLinkedList {
           : `it must be smaller then the list length that is ${this.length}`;
       throw `Index is not valid because ${msg}!`;
     }
-
+    const half = Math.floor(this.length / 2);
     let currentNode = this.head;
+
+    if (index > half) {
+      currentNode = this.tail;
+      let length = this.length - 1;
+
+      while (length > index) {
+        currentNode = currentNode.previous;
+        length--;
+      }
+
+      return currentNode;
+    }
+
     while (index > 0) {
       currentNode = currentNode.next;
       index--;
@@ -82,10 +96,12 @@ class SinglyLinkedList {
     }
 
     let previousNode = this.get(index - 1);
-
     let newNode = new Node(val);
+
     previousNode.next = newNode;
+    newNode.previous = previousNode;
     newNode.next = currentNode;
+    currentNode.previous = newNode;
 
     this.length++;
   }
@@ -111,6 +127,7 @@ class SinglyLinkedList {
     let nextNode = this.get(index + 1);
 
     previousNode.next = nextNode;
+    nextNode.previous = previousNode;
     this.length--;
 
     return currentNode;
@@ -128,6 +145,7 @@ class SinglyLinkedList {
       this.tail = this.head;
     } else {
       this.tail.next = newNode;
+      newNode.previous = this.tail;
       this.tail = newNode;
     }
 
@@ -161,6 +179,7 @@ class SinglyLinkedList {
 
     this.tail = newTail;
     this.tail.next = null;
+    currentNode.previous = null;
     return currentNode;
   }
 
@@ -179,8 +198,11 @@ class SinglyLinkedList {
       return headTmp;
     }
 
+    headTmp.previous = null;
     this.head = headTmp.next;
+    this.head.previous = null;
     headTmp.next = null;
+
     return headTmp;
   }
 
@@ -195,6 +217,8 @@ class SinglyLinkedList {
     let newNode = new Node(val);
 
     newNode.next = this.head;
+    newNode.previous = null;
+    this.head.previous = newNode;
     this.head = newNode;
     this.length++;
   }
@@ -248,7 +272,7 @@ class SinglyLinkedList {
   }
 }
 
-let list = new SinglyLinkedList();
+let list = new DoublyLinkedList();
 console.log("Empty list: ", list);
 
 /** PUSH TO THE LIST */
@@ -285,8 +309,12 @@ console.log("Checking new list: ", list);
 let element = list.get(0);
 console.log("Element on the position 0 is: ", element);
 list.push(2);
+list.push(3);
+list.push(4);
+
 element = list.get(1);
-console.log("Element on the position 1 is: ", element);
+element = list.get(3);
+console.log("Element on the position 0 is: ", element);
 console.log("List: ", list);
 
 /** SET ELEMENT AT POSITION IN THE LIST */
