@@ -190,7 +190,8 @@ class SinglyLinkedList {
    */
   unshift(val) {
     if (!this.head) {
-      return this.push(val);
+      this.push(val);
+      return;
     }
     let newNode = new Node(val);
 
