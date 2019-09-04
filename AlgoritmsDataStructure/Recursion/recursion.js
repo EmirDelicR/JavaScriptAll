@@ -110,9 +110,12 @@ console.log("This should be 55: ", recursiveRange(10));
 
 /** ------------------------------- FIBONACCI -------------------------------------- */
 
-const fib = num => {
+const fib = (num, memorize = []) => {
+  if (memorize[n] !== undefined) return memorize[n];
   if (num <= 2) return 1;
-  return fib(num - 1) + fib(num - 2);
+  const result = fib(num - 1, memorize) + fib(num - 2, memorize);
+  memorize[n] = result;
+  return result;
 };
 
 console.log("This should be 3: ", fib(4));
