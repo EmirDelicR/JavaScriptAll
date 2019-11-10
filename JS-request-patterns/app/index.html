@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Test</title>
+    <style>
+      .wrapper {
+        border: 2px dotted rgb(96, 139, 168);
+        width: 100%;
+        margin: auto;
+      }
+
+      .box {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -10px;
+      }
+
+      .box > * {
+        flex: 1 1 40%;
+        margin: 10px;
+        text-align: center;
+        padding: 30px;
+        border-bottom: 2px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="box">
+        <div>
+          <h2>Callback</h2>
+          <button class="btn-call">Load</button>
+          <div class="call"></div>
+        </div>
+        <div>
+          <h2>Promises</h2>
+          <button class="btn-promises">Load</button>
+          <div class="promises"></div>
+        </div>
+        <div>
+          <h2>Observables</h2>
+          <button class="btn-obs">Load</button>
+          <div class="obs"></div>
+        </div>
+        <div>
+          <h2>Async</h2>
+          <button class="btn-asc">Load</button>
+          <div class="asc"></div>
+        </div>
+        <div>
+          <h2>Async error handler</h2>
+          <button class="btn-err">Load</button>
+          <div class="err"></div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="bundle.js"></script>
+  </body>
+</html>
